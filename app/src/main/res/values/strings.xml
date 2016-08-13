@@ -2,6 +2,9 @@
     <string name="app_name">EasterEgg</string>
     <string name="title_activity_main">MainActivity</string>
 
+    <string name="honeybee">Honeybee</string>
+    <string name="zombie">Zombie</string>
+    <string name="nyandroid">Nyandroid</string>
     <string name="beanbag">BeanBag</string>
     <string name="dessertcase">DessertCase</string>
     <string name="go">go</string>
