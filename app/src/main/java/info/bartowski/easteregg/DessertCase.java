@@ -1,4 +1,3 @@
-package info.bartowski.easteregg;
 /*
  * Copyright (C) 2013 The Android Open Source Project
  *
@@ -14,6 +13,8 @@ package info.bartowski.easteregg;
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
+package info.bartowski.easteregg;
 
 import android.app.Activity;
 import android.content.ComponentName;

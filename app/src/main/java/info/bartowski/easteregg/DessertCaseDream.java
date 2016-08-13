@@ -1,8 +1,3 @@
-package info.bartowski.easteregg;
-
-/**
- * Created by user on 8/13/16.
- */
 /*
  * Copyright (C) 2013 The Android Open Source Project
  *
@@ -18,6 +13,8 @@ package info.bartowski.easteregg;
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
+package info.bartowski.easteregg;
 
 import android.service.dreams.DreamService;
 

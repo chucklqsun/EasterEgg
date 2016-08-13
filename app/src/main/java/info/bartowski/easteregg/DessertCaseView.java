@@ -1,4 +1,3 @@
-package info.bartowski.easteregg;
 /*
  * Copyright (C) 2013 The Android Open Source Project
  *
@@ -15,7 +14,7 @@ package info.bartowski.easteregg;
  * limitations under the License.
  */
 
-import android.widget.FrameLayout;
+package info.bartowski.easteregg;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
@@ -23,7 +22,14 @@ import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.content.res.Resources;
-import android.graphics.*;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.ColorMatrixColorFilter;
+import android.graphics.Paint;
+import android.graphics.Point;
+import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Handler;
@@ -34,6 +40,7 @@ import android.view.View;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.AnticipateOvershootInterpolator;
 import android.view.animation.DecelerateInterpolator;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 
 import java.util.HashSet;

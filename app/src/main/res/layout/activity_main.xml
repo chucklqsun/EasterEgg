@@ -42,6 +42,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
+        <RadioButton
+            android:textSize="22sp"
+            android:text="@string/beanbag"
+            android:checked="false"
+            android:id="@+id/egg_beanbag_rb"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
     </RadioGroup>
     <Button
         android:id="@+id/egg_open_button"
