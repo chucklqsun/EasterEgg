@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">EasterEgg</string>
+    <string name="title_activity_main">MainActivity</string>
+
+    <string name="dessertcase">DessertCase</string>
+    <string name="go">go</string>
+</resources>
