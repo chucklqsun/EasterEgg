@@ -23,6 +23,7 @@ public class MainActivity extends AppCompatActivity {
 
         targetMap.put(R.id.egg_dessertcase_rb,DessertCase.class);
         targetMap.put(R.id.egg_mland_rb,MLandActivity.class);
+        targetMap.put(R.id.egg_lland_rb,LLandActivity.class);
 
         Intent intent = new Intent(this, targetMap.get(rg.getCheckedRadioButtonId()));
         startActivity(intent);

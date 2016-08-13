@@ -96,32 +96,32 @@ public class MLand extends FrameLayout {
         public int MAX_V;
             public float SCENERY_Z, OBSTACLE_Z, PLAYER_Z, PLAYER_Z_BOOST, HUD_Z;
         public Params(Resources res) {
-            TRANSLATION_PER_SEC = res.getDimension(R.dimen.translation_per_sec);
-            OBSTACLE_SPACING = res.getDimensionPixelSize(R.dimen.obstacle_spacing);
+            TRANSLATION_PER_SEC = res.getDimension(R.dimen.mland_translation_per_sec);
+            OBSTACLE_SPACING = res.getDimensionPixelSize(R.dimen.mland_obstacle_spacing);
             OBSTACLE_PERIOD = (int) (OBSTACLE_SPACING / TRANSLATION_PER_SEC);
-            BOOST_DV = res.getDimensionPixelSize(R.dimen.boost_dv);
-            PLAYER_HIT_SIZE = res.getDimensionPixelSize(R.dimen.player_hit_size);
-            PLAYER_SIZE = res.getDimensionPixelSize(R.dimen.player_size);
-            OBSTACLE_WIDTH = res.getDimensionPixelSize(R.dimen.obstacle_width);
-            OBSTACLE_STEM_WIDTH = res.getDimensionPixelSize(R.dimen.obstacle_stem_width);
-            OBSTACLE_GAP = res.getDimensionPixelSize(R.dimen.obstacle_gap);
-            OBSTACLE_MIN = res.getDimensionPixelSize(R.dimen.obstacle_height_min);
-            BUILDING_HEIGHT_MIN = res.getDimensionPixelSize(R.dimen.building_height_min);
-            BUILDING_WIDTH_MIN = res.getDimensionPixelSize(R.dimen.building_width_min);
-            BUILDING_WIDTH_MAX = res.getDimensionPixelSize(R.dimen.building_width_max);
-            CLOUD_SIZE_MIN = res.getDimensionPixelSize(R.dimen.cloud_size_min);
-            CLOUD_SIZE_MAX = res.getDimensionPixelSize(R.dimen.cloud_size_max);
-            STAR_SIZE_MIN = res.getDimensionPixelSize(R.dimen.star_size_min);
-            STAR_SIZE_MAX = res.getDimensionPixelSize(R.dimen.star_size_max);
+            BOOST_DV = res.getDimensionPixelSize(R.dimen.mland_boost_dv);
+            PLAYER_HIT_SIZE = res.getDimensionPixelSize(R.dimen.mland_player_hit_size);
+            PLAYER_SIZE = res.getDimensionPixelSize(R.dimen.mland_player_size);
+            OBSTACLE_WIDTH = res.getDimensionPixelSize(R.dimen.mland_obstacle_width);
+            OBSTACLE_STEM_WIDTH = res.getDimensionPixelSize(R.dimen.mland_obstacle_stem_width);
+            OBSTACLE_GAP = res.getDimensionPixelSize(R.dimen.mland_obstacle_gap);
+            OBSTACLE_MIN = res.getDimensionPixelSize(R.dimen.mland_obstacle_height_min);
+            BUILDING_HEIGHT_MIN = res.getDimensionPixelSize(R.dimen.mland_building_height_min);
+            BUILDING_WIDTH_MIN = res.getDimensionPixelSize(R.dimen.mland_building_width_min);
+            BUILDING_WIDTH_MAX = res.getDimensionPixelSize(R.dimen.mland_building_width_max);
+            CLOUD_SIZE_MIN = res.getDimensionPixelSize(R.dimen.mland_cloud_size_min);
+            CLOUD_SIZE_MAX = res.getDimensionPixelSize(R.dimen.mland_cloud_size_max);
+            STAR_SIZE_MIN = res.getDimensionPixelSize(R.dimen.mland_star_size_min);
+            STAR_SIZE_MAX = res.getDimensionPixelSize(R.dimen.mland_star_size_max);
 
-            G = res.getDimensionPixelSize(R.dimen.G);
-            MAX_V = res.getDimensionPixelSize(R.dimen.max_v);
+            G = res.getDimensionPixelSize(R.dimen.mland_G);
+            MAX_V = res.getDimensionPixelSize(R.dimen.mland_max_v);
 
-            SCENERY_Z = res.getDimensionPixelSize(R.dimen.scenery_z);
-            OBSTACLE_Z = res.getDimensionPixelSize(R.dimen.obstacle_z);
-            PLAYER_Z = res.getDimensionPixelSize(R.dimen.player_z);
-            PLAYER_Z_BOOST = res.getDimensionPixelSize(R.dimen.player_z_boost);
-            HUD_Z = res.getDimensionPixelSize(R.dimen.hud_z);
+            SCENERY_Z = res.getDimensionPixelSize(R.dimen.mland_scenery_z);
+            OBSTACLE_Z = res.getDimensionPixelSize(R.dimen.mland_obstacle_z);
+            PLAYER_Z = res.getDimensionPixelSize(R.dimen.mland_player_z);
+            PLAYER_Z_BOOST = res.getDimensionPixelSize(R.dimen.mland_player_z_boost);
+            HUD_Z = res.getDimensionPixelSize(R.dimen.mland_hud_z);
 
             // Sanity checking
             if (OBSTACLE_MIN <= OBSTACLE_WIDTH / 2) {
@@ -410,7 +410,7 @@ public class MLand extends FrameLayout {
         if (showingSun) {
             final Star sun = new Star(getContext());
             sun.setBackgroundResource(R.drawable.sun);
-            final int w = getResources().getDimensionPixelSize(R.dimen.sun_size);
+            final int w = getResources().getDimensionPixelSize(R.dimen.mland_sun_size);
             sun.setTranslationX(frand(w, mWidth-w));
             if (mTimeOfDay == DAY) {
                 sun.setTranslationY(frand(w, (mHeight * 0.66f)));
@@ -432,7 +432,7 @@ public class MLand extends FrameLayout {
                 moon.getBackground().setAlpha(dark ? 255 : 128);
                 moon.setScaleX(frand() > 0.5 ? -1 : 1);
                 moon.setRotation(moon.getScaleX() * frand(5, 30));
-                final int w = getResources().getDimensionPixelSize(R.dimen.sun_size);
+                final int w = getResources().getDimensionPixelSize(R.dimen.mland_sun_size);
                 moon.setTranslationX(frand(w, mWidth - w));
                 moon.setTranslationY(frand(w, mHeight - w));
                 addView(moon, new LayoutParams(w, w));
