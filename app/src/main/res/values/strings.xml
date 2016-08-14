@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">EasterEgg</string>
-    <string name="title_activity_main">MainActivity</string>
+    <string name="title_activity_main">EasterEgg</string>
 
     <string name="honeybee">Honeybee</string>
     <string name="zombie">Zombie</string>

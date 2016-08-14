@@ -3,10 +3,11 @@
     package="info.bartowski.easteregg">
 
     <uses-permission android:name="android.permission.VIBRATE" />
+    <!--<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />-->
 
     <application
         android:allowBackup="true"
-        android:icon="@drawable/icon"
+        android:icon="@drawable/jandycane"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
@@ -17,8 +18,7 @@
             android:enabled="false"
             android:exported="true"
             android:label="dessert_case"
-            android:permission="android.permission.BIND_DREAM_SERVICE"
-            android:process=":sweetsweetdesserts">
+            android:permission="android.permission.BIND_DREAM_SERVICE">
             <intent-filter>
                 <action android:name="android.service.dreams.DreamService" />
                 <category android:name="android.intent.category.DEFAULT" />
@@ -29,11 +29,9 @@
         <activity
             android:name=".DessertCase"
             android:excludeFromRecents="true"
-            android:exported="true"
             android:hardwareAccelerated="true"
             android:label="/dessert_case"
             android:launchMode="singleInstance"
-            android:process=":sweetsweetdesserts"
             android:screenOrientation="locked"
             android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen">
             <intent-filter>
@@ -44,12 +42,9 @@
         <activity
             android:name=".MLandActivity"
             android:excludeFromRecents="true"
-            android:exported="true"
             android:hardwareAccelerated="true"
-            android:icon="@drawable/icon"
             android:label="@string/mland"
             android:launchMode="singleInstance"
-            android:process=":sweetsweetdesserts"
             android:screenOrientation="locked"
             android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen" >
             <intent-filter>
@@ -59,18 +54,15 @@
         </activity>
 
         <activity android:name=".LLandActivity"
-            android:theme="@android:style/Theme.Material.Light.NoActionBar"
-            android:exported="true"
+            android:theme="@android:style/Theme.Holo.NoActionBar"
             android:label="@string/lland"
             android:hardwareAccelerated="true"
             android:launchMode="singleInstance"
             android:screenOrientation="locked"
-            android:process=":sweetsweetdesserts"
             android:excludeFromRecents="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="com.android.internal.category.PLATLOGO" />
             </intent-filter>
         </activity>
         <activity
@@ -85,9 +77,7 @@
 
         <activity
             android:name=".BeanBag"
-            android:exported="true"
             android:label="BeanBag"
-            android:icon="@drawable/redbeandroid"
             android:theme="@android:style/Theme.Wallpaper.NoTitleBar.Fullscreen"
             android:hardwareAccelerated="true"
             android:launchMode="singleInstance"
@@ -100,9 +90,7 @@
 
         <activity
             android:name=".Nyandroid"
-            android:exported="true"
             android:label="Nyandroid"
-            android:icon="@drawable/nyandroid04"
             android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen"
             android:hardwareAccelerated="true"
             android:launchMode="singleInstance"

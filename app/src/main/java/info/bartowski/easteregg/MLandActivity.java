@@ -23,11 +23,35 @@ import android.view.ViewGroup;
 
 public class MLandActivity extends Activity {
     MLand mLand;
+    View minus;
+    View plus;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.mland);
+        minus = findViewById(R.id.player_minus_button);
+        plus = findViewById(R.id.player_plus_button);
+
+        plus.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        mLand.addPlayer();
+                        updateSplashPlayers();
+                    }
+                }
+        );
+        minus.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        mLand.removePlayer();
+                        updateSplashPlayers();
+                    }
+                }
+        );
+
         mLand = (MLand) findViewById(R.id.world);
         mLand.setScoreFieldHolder((ViewGroup) findViewById(R.id.scores));
         final View welcome = findViewById(R.id.welcome);
@@ -36,12 +60,14 @@ public class MLandActivity extends Activity {
         if (numControllers > 0) {
             mLand.setupPlayers(numControllers);
         }
+
+
+
     }
 
     public void updateSplashPlayers() {
         final int N = mLand.getNumPlayers();
-        final View minus = findViewById(R.id.player_minus_button);
-        final View plus = findViewById(R.id.player_plus_button);
+
         if (N == 1) {
             minus.setVisibility(View.INVISIBLE);
             plus.setVisibility(View.VISIBLE);
@@ -71,19 +97,9 @@ public class MLandActivity extends Activity {
         mLand.showSplash();
     }
 
-    public void playerMinus(View v) {
-        mLand.removePlayer();
-        updateSplashPlayers();
-    }
-
-    public void playerPlus(View v) {
-        mLand.addPlayer();
-        updateSplashPlayers();
-    }
-
     public void startButtonPressed(View v) {
-        findViewById(R.id.player_minus_button).setVisibility(View.INVISIBLE);
-        findViewById(R.id.player_plus_button).setVisibility(View.INVISIBLE);
+        minus.setVisibility(View.INVISIBLE);
+        plus.setVisibility(View.INVISIBLE);
         mLand.start(true);
     }
 }

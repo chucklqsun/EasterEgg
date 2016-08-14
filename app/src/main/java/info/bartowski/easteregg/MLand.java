@@ -18,6 +18,7 @@ package info.bartowski.easteregg;
 
 import android.animation.LayoutTransition;
 import android.animation.TimeAnimator;
+import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Canvas;
@@ -31,9 +32,11 @@ import android.graphics.PorterDuffColorFilter;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
-import android.media.AudioAttributes;
 import android.media.AudioManager;
+import android.os.Build;
 import android.os.Vibrator;
+import android.support.v4.graphics.drawable.DrawableCompat;
+import android.support.v4.view.ViewCompat;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.Gravity;
@@ -134,8 +137,6 @@ public class MLand extends FrameLayout {
     private TimeAnimator mAnim;
     private Vibrator mVibrator;
     private AudioManager mAudioManager;
-    private final AudioAttributes mAudioAttrs = new AudioAttributes.Builder()
-            .setUsage(AudioAttributes.USAGE_GAME).build();
 
     private View mSplash;
     private ViewGroup mScoreFields;
@@ -371,13 +372,11 @@ public class MLand extends FrameLayout {
             int controllerId = mGameControllers.get(playerIndex);
             InputDevice dev = InputDevice.getDevice(controllerId);
             if (dev != null && dev.getVibrator().hasVibrator()) {
-                dev.getVibrator().vibrate(
-                        (long) (ms * CONTROLLER_VIBRATION_MULTIPLIER),
-                        mAudioAttrs);
+                Utility.compatVibrate(dev.getVibrator(),(long) (ms * CONTROLLER_VIBRATION_MULTIPLIER));
                 return;
             }
         }
-        mVibrator.vibrate(ms, mAudioAttrs);
+        Utility.compatVibrate(mVibrator,(long) (ms * CONTROLLER_VIBRATION_MULTIPLIER));
     }
 
     public void reset() {
@@ -409,16 +408,16 @@ public class MLand extends FrameLayout {
         boolean showingSun = (mTimeOfDay == DAY || mTimeOfDay == SUNSET) && frand() > 0.25;
         if (showingSun) {
             final Star sun = new Star(getContext());
-            sun.setBackgroundResource(R.drawable.sun);
+            sun.setBackground(Utility.getCompatDrawable(getContext(),R.drawable.sun));
             final int w = getResources().getDimensionPixelSize(R.dimen.mland_sun_size);
             sun.setTranslationX(frand(w, mWidth-w));
             if (mTimeOfDay == DAY) {
                 sun.setTranslationY(frand(w, (mHeight * 0.66f)));
-                sun.getBackground().setTint(0);
+                DrawableCompat.setTint(sun.getBackground(),0);
             } else {
                 sun.setTranslationY(frand(mHeight * 0.66f, mHeight - w));
-                sun.getBackground().setTintMode(PorterDuff.Mode.SRC_ATOP);
-                sun.getBackground().setTint(0xC0FF8000);
+                DrawableCompat.setTintMode(sun.getBackground(),PorterDuff.Mode.SRC_ATOP);
+                DrawableCompat.setTint(sun.getBackground(),0xC0FF8000);
 
             }
             addView(sun, new LayoutParams(w, w));
@@ -428,7 +427,7 @@ public class MLand extends FrameLayout {
             final float ff = frand();
             if ((dark && ff < 0.75f) || ff < 0.5f) {
                 final Star moon = new Star(getContext());
-                moon.setBackgroundResource(R.drawable.moon);
+                moon.setBackground(Utility.getCompatDrawable(getContext(),R.drawable.moon));
                 moon.getBackground().setAlpha(dark ? 255 : 128);
                 moon.setScaleX(frand() > 0.5 ? -1 : 1);
                 moon.setRotation(moon.getScaleX() * frand(5, 30));
@@ -552,7 +551,7 @@ public class MLand extends FrameLayout {
     public void hideSplash() {
         if (mSplash != null && mSplash.getVisibility() == View.VISIBLE) {
             mSplash.setClickable(false);
-            mSplash.animate().alpha(0).translationZ(0).setDuration(300).withEndAction(
+            ViewCompat.animate(mSplash).alpha(0).translationZ(0).setDuration(300).withEndAction(
                     new Runnable() {
                         @Override
                         public void run() {
@@ -755,7 +754,7 @@ public class MLand extends FrameLayout {
                     Gravity.TOP|Gravity.LEFT));
             s1.setTranslationX(mWidth+inset);
             s1.setTranslationY(-s1.h-yinset);
-            s1.setTranslationZ(PARAMS.OBSTACLE_Z*0.75f);
+            ViewCompat.setTranslationZ(s1,PARAMS.OBSTACLE_Z*0.75f);
             s1.animate()
                     .translationY(0)
                     .setStartDelay(d1)
@@ -769,7 +768,7 @@ public class MLand extends FrameLayout {
                     Gravity.TOP|Gravity.LEFT));
             p1.setTranslationX(mWidth);
             p1.setTranslationY(-PARAMS.OBSTACLE_WIDTH);
-            p1.setTranslationZ(PARAMS.OBSTACLE_Z);
+            ViewCompat.setTranslationZ(p1,PARAMS.OBSTACLE_Z);
             p1.setScaleX(0.25f);
             p1.setScaleY(-0.25f);
             p1.animate()
@@ -790,7 +789,7 @@ public class MLand extends FrameLayout {
                     Gravity.TOP|Gravity.LEFT));
             s2.setTranslationX(mWidth+inset);
             s2.setTranslationY(mHeight+yinset);
-            s2.setTranslationZ(PARAMS.OBSTACLE_Z*0.75f);
+            ViewCompat.setTranslationZ(s2,PARAMS.OBSTACLE_Z*0.75f);
             s2.animate()
                     .translationY(mHeight-s2.h)
                     .setStartDelay(d2)
@@ -804,7 +803,7 @@ public class MLand extends FrameLayout {
                     Gravity.TOP|Gravity.LEFT));
             p2.setTranslationX(mWidth);
             p2.setTranslationY(mHeight);
-            p2.setTranslationZ(PARAMS.OBSTACLE_Z);
+            ViewCompat.setTranslationZ(p2,PARAMS.OBSTACLE_Z);
             p2.setScaleX(0.25f);
             p2.setScaleY(0.25f);
             p2.animate()
@@ -1080,20 +1079,24 @@ public class MLand extends FrameLayout {
         public Player(Context context) {
             super(context);
 
-            setBackgroundResource(R.drawable.android);
-            getBackground().setTintMode(PorterDuff.Mode.SRC_ATOP);
+            setBackground(Utility.getCompatDrawable(context,R.drawable.android));
+            DrawableCompat.setTintMode(getBackground(), PorterDuff.Mode.SRC_ATOP);
             color = sColors[(sNextColor++%sColors.length)];
-            getBackground().setTint(color);
-            setOutlineProvider(new ViewOutlineProvider() {
-                @Override
-                public void getOutline(View view, Outline outline) {
-                    final int w = view.getWidth();
-                    final int h = view.getHeight();
-                    final int ix = (int) (w * 0.3f);
-                    final int iy = (int) (h * 0.2f);
-                    outline.setRect(ix, iy, w - ix, h - iy);
-                }
-            });
+            DrawableCompat.setTint(getBackground(),color);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                setOutlineProvider(new ViewOutlineProvider() {
+
+                    @TargetApi(Build.VERSION_CODES.M)
+                    @Override
+                    public void getOutline(View view, Outline outline) {
+                        final int w = view.getWidth();
+                        final int h = view.getHeight();
+                        final int ix = (int) (w * 0.3f);
+                        final int iy = (int) (h * 0.2f);
+                        outline.setRect(ix, iy, w - ix, h - iy);
+                    }
+                });
+            }
         }
 
         public void prepareCheckIntersections() {
@@ -1151,7 +1154,7 @@ public class MLand extends FrameLayout {
             dv = -PARAMS.BOOST_DV;
 
             animate().cancel();
-            animate()
+            ViewCompat.animate(this)
                     .scaleX(1.25f)
                     .scaleY(1.25f)
                     .translationZ(PARAMS.PLAYER_Z_BOOST)
@@ -1165,7 +1168,7 @@ public class MLand extends FrameLayout {
             mTouchX = mTouchY = -1;
 
             animate().cancel();
-            animate()
+            ViewCompat.animate(this)
                     .scaleX(1f)
                     .scaleY(1f)
                     .translationZ(PARAMS.PLAYER_Z)
@@ -1236,21 +1239,24 @@ public class MLand extends FrameLayout {
 
         public Pop(Context context, float h) {
             super(context, h);
-            setBackgroundResource(R.drawable.mm_head);
-            antenna = context.getDrawable(pick(ANTENNAE));
+            setBackground(Utility.getCompatDrawable(context,R.drawable.mm_head));
+            antenna = Utility.getCompatDrawable(context,pick(ANTENNAE));
             if (frand() > 0.5f) {
-                eyes = context.getDrawable(pick(EYES));
+                eyes = Utility.getCompatDrawable(context,pick(EYES));
                 if (frand() > 0.8f) {
-                    mouth = context.getDrawable(pick(MOUTHS));
+                    mouth = Utility.getCompatDrawable(context,pick(MOUTHS));
                 }
             }
-            setOutlineProvider(new ViewOutlineProvider() {
-                @Override
-                public void getOutline(View view, Outline outline) {
-                    final int pad = (int) (getWidth() * 1f/6);
-                    outline.setOval(pad, pad, getWidth()-pad, getHeight()-pad);
-                }
-            });
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                setOutlineProvider(new ViewOutlineProvider() {
+                    @TargetApi(Build.VERSION_CODES.M)
+                    @Override
+                    public void getOutline(View view, Outline outline) {
+                        final int pad = (int) (getWidth() * 1f / 6);
+                        outline.setOval(pad, pad, getWidth() - pad, getHeight() - pad);
+                    }
+                });
+            }
         }
 
         public boolean intersects(Player p) {
@@ -1328,12 +1334,15 @@ public class MLand extends FrameLayout {
         public void onAttachedToWindow() {
             super.onAttachedToWindow();
             setWillNotDraw(false);
-            setOutlineProvider(new ViewOutlineProvider() {
-                @Override
-                public void getOutline(View view, Outline outline) {
-                    outline.setRect(0, 0, getWidth(), getHeight());
-                }
-            });
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                setOutlineProvider(new ViewOutlineProvider() {
+                    @TargetApi(Build.VERSION_CODES.M)
+                    @Override
+                    public void getOutline(View view, Outline outline) {
+                        outline.setRect(0, 0, getWidth(), getHeight());
+                    }
+                });
+            }
         }
         @Override
         public void onDraw(Canvas c) {
@@ -1395,7 +1404,7 @@ public class MLand extends FrameLayout {
         public Cactus(Context context) {
             super(context);
 
-            setBackgroundResource(pick(CACTI));
+            setBackground(Utility.getCompatDrawable(context,pick(CACTI)));
             w = h = irand(PARAMS.BUILDING_WIDTH_MAX / 4, PARAMS.BUILDING_WIDTH_MAX / 2);
         }
     }
@@ -1406,7 +1415,7 @@ public class MLand extends FrameLayout {
         public Mountain(Context context) {
             super(context);
 
-            setBackgroundResource(pick(MOUNTAINS));
+            setBackground(Utility.getCompatDrawable(context,pick(MOUNTAINS)));
             w = h = irand(PARAMS.BUILDING_WIDTH_MAX / 2, PARAMS.BUILDING_WIDTH_MAX);
             z = 0;
         }
@@ -1414,7 +1423,9 @@ public class MLand extends FrameLayout {
     private class Cloud extends Scenery {
         public Cloud(Context context) {
             super(context);
-            setBackgroundResource(frand() < 0.01f ? R.drawable.cloud_off : R.drawable.cloud);
+            setBackground(
+                    Utility.getCompatDrawable(context,frand() < 0.01f ? R.drawable.cloud_off : R.drawable.cloud)
+            );
             getBackground().setAlpha(0x40);
             w = h = irand(PARAMS.CLOUD_SIZE_MIN, PARAMS.CLOUD_SIZE_MAX);
             z = 0;
@@ -1425,7 +1436,7 @@ public class MLand extends FrameLayout {
     private class Star extends Scenery {
         public Star(Context context) {
             super(context);
-            setBackgroundResource(R.drawable.star);
+            setBackground(Utility.getCompatDrawable(context,R.drawable.star));
             w = h = irand(PARAMS.STAR_SIZE_MIN, PARAMS.STAR_SIZE_MAX);
             v = z = 0;
         }

@@ -34,7 +34,8 @@
     <dimen name="mland_star_size_min">3dp</dimen>
     <dimen name="mland_star_size_max">5dp</dimen>
     <dimen name="mland_G">30dp</dimen>
-    <dimen name="mland_max_v">1000dp</dimen>
+    <!--<dimen name="mland_max_v">1000dp</dimen>-->
+    <dimen name="mland_max_v">700dp</dimen>
     <dimen name="mland_scenery_z">6dp</dimen>
     <dimen name="mland_obstacle_z">18dp</dimen>
     <dimen name="mland_player_z">18dp</dimen>
