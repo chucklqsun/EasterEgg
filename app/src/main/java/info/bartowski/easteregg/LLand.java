@@ -827,8 +827,8 @@ public class LLand extends FrameLayout {
         public Pop(Context context, float h) {
             super(context, h);
             int idx = 2*irand(0, POPS.length/2);
-            setBackgroundResource(POPS[idx]);
-//            setBackground(Utility.getCompatDrawable(getContext(),POPS[idx]));
+//            setBackgroundResource(POPS[idx]);
+            setBackground(Utility.getCompatDrawable(getContext(),POPS[idx]));
             setScaleX(frand() < 0.5f ? -1 : 1);
             mRotate = POPS[idx+1] == 0 ? 0 : (frand() < 0.5f ? -1 : 1);
 
