@@ -8,4 +8,5 @@
     <string name="beanbag">BeanBag</string>
     <string name="dessertcase">DessertCase</string>
     <string name="go">go</string>
+    <string name="check_version">check version</string>
 </resources>

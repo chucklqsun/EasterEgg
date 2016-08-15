@@ -53,6 +53,8 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
+import info.bartowski.easteregg.framework.Utility;
+
 // It's like LLand, but "M"ultiplayer.
 public class MLand extends FrameLayout {
     public static final String TAG = "MLand";

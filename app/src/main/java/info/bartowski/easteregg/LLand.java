@@ -47,6 +47,8 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
+import info.bartowski.easteregg.framework.Utility;
+
 public class LLand extends FrameLayout {
     public static final String TAG = "LLand";
 
