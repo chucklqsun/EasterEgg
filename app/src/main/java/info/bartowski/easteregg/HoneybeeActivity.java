@@ -28,13 +28,13 @@ public class HoneybeeActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        
+
         mToast = Toast.makeText(this, "REZZZZZZZ...", Toast.LENGTH_SHORT);
 
         ImageView content = new ImageView(this);
         content.setImageResource(R.drawable.honeybee);
         content.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
-        
+
         setContentView(content);
     }
 

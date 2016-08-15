@@ -18,6 +18,7 @@
         android:layout_gravity="center_horizontal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
+
         <RadioButton
             android:textSize="22sp"
             android:text="@string/mland"
@@ -75,6 +76,7 @@
             android:layout_height="wrap_content" />
 
     </RadioGroup>
+
     <Button
         android:id="@+id/egg_open_button"
         android:onClick="openEasterEgg"

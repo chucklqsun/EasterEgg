@@ -62,7 +62,6 @@ public class MLandActivity extends Activity {
         }
 
 
-
     }
 
     public void updateSplashPlayers() {

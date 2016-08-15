@@ -24,21 +24,21 @@ import android.os.Vibrator;
 import android.support.graphics.drawable.VectorDrawableCompat;
 
 public class Utility {
-    public static Drawable getCompatDrawable(Context context,int vector_drawable_id){
+    public static Drawable getCompatDrawable(Context context, int vector_drawable_id) {
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            return context.getResources().getDrawable(vector_drawable_id,context.getTheme());
-        }else {
+            return context.getResources().getDrawable(vector_drawable_id, context.getTheme());
+        } else {
             return VectorDrawableCompat.create(context.getResources(), vector_drawable_id, context.getTheme());
         }
     }
 
-    public static void compatVibrate(Vibrator vb, long milliseconds){
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP){
+    public static void compatVibrate(Vibrator vb, long milliseconds) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             AudioAttributes mAudioAttrs = new AudioAttributes.Builder()
                     .setUsage(AudioAttributes.USAGE_GAME).build();
             vb.vibrate(milliseconds, mAudioAttrs);
-        }else{
+        } else {
             vb.vibrate(milliseconds);
         }
     }

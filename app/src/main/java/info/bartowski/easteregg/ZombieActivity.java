@@ -28,13 +28,13 @@ public class ZombieActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        
+
         mToast = Toast.makeText(this, "Zombie art by Jack Larson", Toast.LENGTH_SHORT);
 
         ImageView content = new ImageView(this);
         content.setImageResource(R.drawable.zombie);
         content.setScaleType(ImageView.ScaleType.FIT_CENTER);
-        
+
         setContentView(content);
     }
 

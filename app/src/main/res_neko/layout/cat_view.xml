@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:background="?attr/selectableItemBackgroundBorderless"
+    android:clipToPadding="false"
+    android:gravity="center_horizontal"
+    android:minHeight="?android:listPreferredItemHeightSmall"
+    android:orientation="vertical"
+    android:paddingEnd="?android:listPreferredItemPaddingEnd"
+    android:paddingStart="?android:listPreferredItemPaddingStart">
+
+    <FrameLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@android:id/icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="10.0dip"
+            android:scaleType="fitCenter" />
+
+        <LinearLayout
+            android:id="@id/contextGroup"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:visibility="invisible">
+
+            <ImageView
+                android:id="@+id/shareText"
+                android:layout_width="40.0dip"
+                android:layout_height="40.0dip"
+                android:background="#40000000"
+                android:padding="8.0dip"
+                android:scaleType="fitCenter"
+                android:src="@drawable/ic_share" />
+
+            <Space
+                android:layout_width="0.0dip"
+                android:layout_height="0.0dip"
+                android:layout_weight="1.0" />
+
+            <ImageView
+                android:id="@android:id/closeButton"
+                android:layout_width="40.0dip"
+                android:layout_height="40.0dip"
+                android:background="#40000000"
+                android:padding="4.0dip"
+                android:scaleType="fitCenter"
+                android:src="@drawable/ic_close" />
+        </LinearLayout>
+    </FrameLayout>
+
+    <TextView
+        android:id="@android:id/title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:textAppearance="?android:textAppearanceListItem" />
+</LinearLayout>

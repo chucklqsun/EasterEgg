@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
      Copyright (C) 2014 The Android Open Source Project
 
      Licensed under the Apache License, Version 2.0 (the "License");
@@ -15,39 +14,38 @@
      limitations under the License.
 -->
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:orientation="vertical"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-        >
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
     <info.bartowski.easteregg.LLand
-            android:id="@+id/world"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-    </info.bartowski.easteregg.LLand>
+        android:id="@+id/world"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"></info.bartowski.easteregg.LLand>
+
     <TextView
-            android:id="@+id/score"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="32sp"
-            android:textColor="#FFAAAAAA"
-            android:layout_marginTop="32dp"
-            android:layout_marginLeft="16dp"
-            android:layout_gravity="top|left"
-            android:paddingLeft="16dp"
-            android:paddingRight="16dp"
-            android:paddingTop="8dp"
-            android:paddingBottom="8dp"
-            android:background="@drawable/scorecard"
-            />
+        android:id="@+id/score"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="32sp"
+        android:textColor="#FFAAAAAA"
+        android:layout_marginTop="32dp"
+        android:layout_marginLeft="16dp"
+        android:layout_gravity="top|left"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp"
+        android:background="@drawable/scorecard" />
+
     <TextView
-            android:id="@+id/welcome"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="30sp"
-            android:textColor="#FFFFFFFF"
-            android:layout_gravity="center"
-            android:layout_marginTop="70dp"
-            android:visibility="gone"
-            />
+        android:id="@+id/welcome"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="30sp"
+        android:textColor="#FFFFFFFF"
+        android:layout_gravity="center"
+        android:layout_marginTop="70dp"
+        android:visibility="gone" />
 </FrameLayout>
 

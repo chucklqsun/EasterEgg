@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical"
+    android:paddingEnd="20.0dip"
+    android:paddingStart="20.0dip">
+
+    <EditText
+        android:id="@android:id/edit"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:maxLines="1" />
+</FrameLayout>

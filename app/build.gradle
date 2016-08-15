@@ -18,6 +18,9 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    android.sourceSets {
+        main.res.srcDirs 'src/main/res', 'src/main/res_neko'
+    }
 }
 
 dependencies {

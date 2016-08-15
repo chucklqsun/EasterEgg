@@ -33,17 +33,17 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
     }
 
-    public void openEasterEgg(View view){
+    public void openEasterEgg(View view) {
         RadioGroup rg = (RadioGroup) findViewById(R.id.egg_choose_rg);
-        Map<Integer,Class> targetMap = new HashMap<>();
+        Map<Integer, Class> targetMap = new HashMap<>();
 
-        targetMap.put(R.id.egg_beanbag_rb,BeanBag.class);
-        targetMap.put(R.id.egg_dessertcase_rb,DessertCase.class);
-        targetMap.put(R.id.egg_mland_rb,MLandActivity.class);
-        targetMap.put(R.id.egg_lland_rb,LLandActivity.class);
-        targetMap.put(R.id.egg_nyandroid_rb,Nyandroid.class);
-        targetMap.put(R.id.egg_zombie_rb,ZombieActivity.class);
-        targetMap.put(R.id.egg_honeybee_rb,HoneybeeActivity.class);
+        targetMap.put(R.id.egg_beanbag_rb, BeanBag.class);
+        targetMap.put(R.id.egg_dessertcase_rb, DessertCase.class);
+        targetMap.put(R.id.egg_mland_rb, MLandActivity.class);
+        targetMap.put(R.id.egg_lland_rb, LLandActivity.class);
+        targetMap.put(R.id.egg_nyandroid_rb, Nyandroid.class);
+        targetMap.put(R.id.egg_zombie_rb, ZombieActivity.class);
+        targetMap.put(R.id.egg_honeybee_rb, HoneybeeActivity.class);
 
         Intent intent = new Intent(this, targetMap.get(rg.getCheckedRadioButtonId()));
         startActivity(intent);

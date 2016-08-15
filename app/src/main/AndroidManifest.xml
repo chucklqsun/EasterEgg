@@ -46,14 +46,15 @@
             android:label="@string/mland"
             android:launchMode="singleInstance"
             android:screenOrientation="locked"
-            android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen" >
+            android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
 
-        <activity android:name=".LLandActivity"
+        <activity
+            android:name=".LLandActivity"
             android:theme="@android:style/Theme.Holo.NoActionBar"
             android:label="@string/lland"
             android:hardwareAccelerated="true"
@@ -61,14 +62,14 @@
             android:screenOrientation="locked"
             android:excludeFromRecents="true">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
+                <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
         <activity
             android:name=".MainActivity"
             android:label="@string/title_activity_main"
-            android:theme="@style/AppTheme.NoActionBar" >
+            android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -101,13 +102,13 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".ZombieActivity"
-            android:theme="@android:style/Theme.NoTitleBar.Fullscreen">
-        </activity>
+        <activity
+            android:name=".ZombieActivity"
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen"></activity>
 
-        <activity android:name=".HoneybeeActivity"
-            android:theme="@android:style/Theme.Wallpaper.NoTitleBar.Fullscreen">
-        </activity>
+        <activity
+            android:name=".HoneybeeActivity"
+            android:theme="@android:style/Theme.Wallpaper.NoTitleBar.Fullscreen"></activity>
     </application>
 
 </manifest>
