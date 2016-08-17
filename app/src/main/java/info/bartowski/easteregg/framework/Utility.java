@@ -42,4 +42,5 @@ public class Utility {
             vb.vibrate(milliseconds);
         }
     }
+
 }

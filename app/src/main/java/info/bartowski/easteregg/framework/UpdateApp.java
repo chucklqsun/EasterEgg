@@ -22,6 +22,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Environment;
 import android.util.Log;
+import android.widget.Toast;
 
 import java.io.IOException;
 import java.net.DatagramPacket;
@@ -31,9 +32,10 @@ import java.net.SocketTimeoutException;
 
 import info.bartowski.easteregg.BuildConfig;
 
-public class UpdateApp extends AsyncTask<Void, String, String> {
+public class UpdateApp extends AsyncTask<Void , String, String> {
     private final String LOG_TAG = UpdateApp.class.getSimpleName();
     private static final int VERSION_SIZE = 5; //version use 5 bytes
+    private boolean checkError = true;
     private Context context;
 
     public UpdateApp(Context context) {
@@ -41,7 +43,7 @@ public class UpdateApp extends AsyncTask<Void, String, String> {
         this.context = context;
     }
 
-    protected String doInBackground(Void... voids) {
+    protected String doInBackground(Void ...voids) {
         String msg;
         try {
             DatagramSocket socket = new DatagramSocket();
@@ -65,6 +67,7 @@ public class UpdateApp extends AsyncTask<Void, String, String> {
             String ver = byteArrayToVerFormat(p.getData());
             msg = "version " + ver + " is available";
 
+            checkError = false;
             socket.close();
         } catch (SocketTimeoutException e) {
             msg = "check timeout";
@@ -75,8 +78,12 @@ public class UpdateApp extends AsyncTask<Void, String, String> {
     }
 
     protected void onPostExecute(String result) {
+        Toast.makeText(context,result, Toast.LENGTH_SHORT).show();
         Log.v(LOG_TAG, result);
-        if (!isNew(result)) {
+        if (!isNew(result) && !checkError) {
+            result = "downloading...";
+            Log.v(LOG_TAG, result);
+            Toast.makeText(context,result, Toast.LENGTH_SHORT).show();
             downloadApk();
         }
     }

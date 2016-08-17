@@ -47,10 +47,13 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
+import info.bartowski.easteregg.framework.Setting;
 import info.bartowski.easteregg.framework.Utility;
 
 public class LLand extends FrameLayout {
     public static final String TAG = "LLand";
+
+    private static final String MAX_SCORE_KEY = "max_score";
 
     public static final boolean DEBUG = Log.isLoggable(TAG, Log.DEBUG);
     public static final boolean DEBUG_DRAW = false; // DEBUG
@@ -128,6 +131,7 @@ public class LLand extends FrameLayout {
     private TimeAnimator mAnim;
 
     private TextView mScoreField;
+    private TextView mMaxScoreField;
     private View mSplash;
 
     private Player mDroid;
@@ -136,6 +140,7 @@ public class LLand extends FrameLayout {
     private float t, dt;
 
     private int mScore;
+    private int maxScore;
     private float mLastPipeTime; // in sec
     private int mWidth, mHeight;
     private boolean mAnimating, mPlaying;
@@ -189,13 +194,20 @@ public class LLand extends FrameLayout {
         return dt;
     }
 
-    public void setScoreField(TextView tv) {
+    public void setScoreField(TextView tv, TextView mv) {
         mScoreField = tv;
         if (tv != null) {
             ViewCompat.setTranslationZ(tv, PARAMS.HUD_Z);
             if (!(mAnimating && mPlaying)) {
                 tv.setTranslationY(-500);
             }
+        }
+
+        mMaxScoreField= mv;
+        if (mv != null) {
+            ViewCompat.setTranslationZ(mv, PARAMS.HUD_Z);
+            maxScore = getMaxScore();
+            mv.setText(String.format("%s",maxScore));
         }
     }
 
@@ -350,6 +362,7 @@ public class LLand extends FrameLayout {
                 mScoreField.animate().translationY(0)
                         .setInterpolator(new DecelerateInterpolator())
                         .setDuration(1500);
+
             }
 
             mScoreField.setTextColor(0xFFAAAAAA);
@@ -366,7 +379,26 @@ public class LLand extends FrameLayout {
         }
     }
 
+    private void updateMaxScore(int finalScore){
+        if(maxScore < finalScore){
+            maxScore = finalScore;
+            Setting s = new Setting(getContext(),TAG);
+            s.putInt(MAX_SCORE_KEY,maxScore);
+            if(mMaxScoreField != null) {
+                mMaxScoreField.setText(String.format("%s", maxScore));
+            }
+        }
+    }
+
+    private int getMaxScore(){
+        Setting s = new Setting(getContext(),TAG);
+        return s.getInt(MAX_SCORE_KEY);
+    }
+
     private void stop() {
+        //update max score
+        updateMaxScore(mScore);
+
         if (mAnimating) {
             mAnim.cancel();
             mAnim = null;

@@ -27,7 +27,7 @@ public class LLandActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.lland);
         LLand world = (LLand) findViewById(R.id.world);
-        world.setScoreField((TextView) findViewById(R.id.score));
+        world.setScoreField((TextView) findViewById(R.id.score),(TextView) findViewById(R.id.max_score));
         world.setSplash(findViewById(R.id.welcome));
         Log.v(LLand.TAG, "focus: " + world.requestFocus());
     }
