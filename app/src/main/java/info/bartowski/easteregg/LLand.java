@@ -30,6 +30,7 @@ import android.graphics.PorterDuff;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
+import android.media.MediaPlayer;
 import android.os.Build;
 import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v4.view.ViewCompat;
@@ -47,6 +48,8 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
+import info.bartowski.easteregg.framework.Config;
+import info.bartowski.easteregg.framework.Scores;
 import info.bartowski.easteregg.framework.Setting;
 import info.bartowski.easteregg.framework.Utility;
 
@@ -130,6 +133,7 @@ public class LLand extends FrameLayout {
 
     private TimeAnimator mAnim;
 
+    private MediaPlayer hit;
     private TextView mScoreField;
     private TextView mMaxScoreField;
     private View mSplash;
@@ -171,6 +175,10 @@ public class LLand extends FrameLayout {
         setFocusable(true);
         PARAMS = new Params(getResources());
         mTimeOfDay = irand(0, SKIES.length);
+        if(hit == null) {
+            hit = MediaPlayer.create(getContext(), R.raw.lland_hit);
+            hit.setVolume(0.3f, 0.3f);
+        }
     }
 
     @Override
@@ -197,7 +205,7 @@ public class LLand extends FrameLayout {
     public void setScoreField(TextView tv, TextView mv) {
         mScoreField = tv;
         if (tv != null) {
-            ViewCompat.setTranslationZ(tv, PARAMS.HUD_Z);
+//            ViewCompat.setTranslationZ(tv, PARAMS.HUD_Z);
             if (!(mAnimating && mPlaying)) {
                 tv.setTranslationY(-500);
             }
@@ -205,10 +213,11 @@ public class LLand extends FrameLayout {
 
         mMaxScoreField= mv;
         if (mv != null) {
-            ViewCompat.setTranslationZ(mv, PARAMS.HUD_Z);
+//            ViewCompat.setTranslationZ(mv, PARAMS.HUD_Z);
             maxScore = getMaxScore();
             mv.setText(String.format("%s",maxScore));
         }
+        setScore(0);
     }
 
     public void setSplash(View v) {
@@ -380,6 +389,7 @@ public class LLand extends FrameLayout {
     }
 
     private void updateMaxScore(int finalScore){
+        new Scores(getContext()).execute(Config.FUNC.UPDATE_SCORE,finalScore,MainActivity.IMEI,"路人甲");
         if(maxScore < finalScore){
             maxScore = finalScore;
             Setting s = new Setting(getContext(),TAG);
@@ -484,6 +494,7 @@ public class LLand extends FrameLayout {
 
         if (mPlaying && passedBarrier) {
             addScore(1);
+            hit.start();
         }
 
         // 4. Handle edge of screen

@@ -24,15 +24,11 @@ import android.os.Environment;
 import android.util.Log;
 import android.widget.Toast;
 
-import java.io.IOException;
 import java.net.DatagramPacket;
-import java.net.DatagramSocket;
-import java.net.InetAddress;
-import java.net.SocketTimeoutException;
 
 import info.bartowski.easteregg.BuildConfig;
 
-public class UpdateApp extends AsyncTask<Void , String, String> {
+public class UpdateApp extends AsyncTask<Void, String, String> {
     private final String LOG_TAG = UpdateApp.class.getSimpleName();
     private static final int VERSION_SIZE = 5; //version use 5 bytes
     private boolean checkError = true;
@@ -43,53 +39,51 @@ public class UpdateApp extends AsyncTask<Void , String, String> {
         this.context = context;
     }
 
-    protected String doInBackground(Void ...voids) {
+    protected String doInBackground(Void... voids) {
         String msg;
+        DatagramPacket packet;
+        Transfer trans = new Transfer();
+        Package p = new Package();
         try {
-            DatagramSocket socket = new DatagramSocket();
-            socket.setSoTimeout(3000);
-            // send request
-            Package p = new Package();
+            trans.init();
+
             byte type[] = new byte[]{Config.FUNC.CHECK_APP_VERSION};
             byte[] res_buf = p.build(type);
-
-            InetAddress address = InetAddress.getByName(Config.HOST);
-            DatagramPacket packet = new DatagramPacket(res_buf, res_buf.length, address, Config.PORT);
-            socket.send(packet);
-
-            // get response
-            byte[] rev = new byte[Package.DATA_POS + VERSION_SIZE];
-            packet = new DatagramPacket(rev, rev.length);
-            socket.receive(packet);
-
+            packet = trans.send(res_buf, VERSION_SIZE);
             // display response
             p.resolve(packet);
             String ver = byteArrayToVerFormat(p.getData());
-            msg = "version " + ver + " is available";
-
+            msg = ver;
+            //success
             checkError = false;
-            socket.close();
-        } catch (SocketTimeoutException e) {
-            msg = "check timeout";
-        } catch (IOException e) {
-            msg = "network error";
+
+        } catch (Exception e) {
+            msg = e.getMessage();
         }
+
+        trans.close();
         return msg;
     }
 
     protected void onPostExecute(String result) {
-        Toast.makeText(context,result, Toast.LENGTH_SHORT).show();
         Log.v(LOG_TAG, result);
-        if (!isNew(result) && !checkError) {
-            result = "downloading...";
-            Log.v(LOG_TAG, result);
-            Toast.makeText(context,result, Toast.LENGTH_SHORT).show();
-            downloadApk();
+        //show error
+        if (checkError) {
+            Toast.makeText(context, result, Toast.LENGTH_SHORT).show();
+            return;
         }
+
+        if(needUpdate(result)) {
+            result = String.format("version %s is available, downloading...", result);
+            downloadApk(result);
+        }else{  //already new
+            result = String.format("Already latest version");
+        }
+        Toast.makeText(context, result, Toast.LENGTH_SHORT).show();
     }
 
-    private void downloadApk() {
-        Uri uri = Uri.parse(Config.Uri.APP_SITE + "download/app-debug.apk");
+    private void downloadApk(String version) {
+        Uri uri = Uri.parse(Config.getAppSite()+ "download/app-debug.apk");
         DownloadManager.Request r = new DownloadManager.Request(uri);
 
         // This put the download in the same Download dir the browser uses
@@ -101,15 +95,19 @@ public class UpdateApp extends AsyncTask<Void , String, String> {
         r.setAllowedOverRoaming(false);
 
         r.setTitle("EasterEgg");
-        r.setDescription("Android Easter Egg Update.");
+        r.setDescription("Download Easter Egg Ver. " + version + ".");
 
         // Start download
         DownloadManager dm = (DownloadManager) context.getSystemService(context.DOWNLOAD_SERVICE);
         dm.enqueue(r);
     }
 
-    private boolean isNew(String result) {
-        return BuildConfig.VERSION_NAME == result;
+    private boolean needUpdate(String result) {
+        String curVer = BuildConfig.VERSION_NAME;
+        curVer = curVer.replace(".", "");
+        result = result.replace(".", "");
+        Log.v(LOG_TAG, curVer + " -> " + result);
+        return Integer.parseInt(curVer) < Integer.parseInt(result);
     }
 
     private String byteArrayToVerFormat(byte[] b) {

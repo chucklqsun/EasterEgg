@@ -21,7 +21,7 @@ import java.net.DatagramPacket;
 public class Package {
     private final static String LOG_TAG = Package.class.getSimpleName();
     public final static byte ERROR = 0;
-    public final static int MAX_SIZE = 256;
+    public final static int MAX_SIZE = 548;
 
     //call name;feed name
     public static int TYPE_POS = 0;
@@ -57,41 +57,27 @@ public class Package {
      * @param packet
      */
     public void resolve(DatagramPacket packet) {
-        byte input[] = packet.getData();
+        byte[] input = packet.getData();
         int actual_size = input.length;
-        if (actual_size > MAX_SIZE) {
+        if(actual_size> MAX_SIZE){
             this.type[0] = Package.ERROR;
             error = new Error("Packet Too Large");
         }
-        if (actual_size < DATA_POS - 1) {
+        if(actual_size< DATA_POS-1){
             this.type[0] = Package.ERROR;
             error = new Error("Packet Too Small");
         }
-        System.arraycopy(input, KEY_POS, this.key, 0, KEY_SIZE);
+        System.arraycopy(input,KEY_POS,this.key,0,KEY_SIZE);
         //todo verify key
 
-        System.arraycopy(input, TYPE_POS, this.type, 0, TYPE_SIZE);
-        switch (input[TYPE_POS]) {
-            case Config.FUNC.CHECK_APP_VERSION:
-                //Log.v(LOG_TAG,"case 1 "+ Integer.toString(actual_size-DATA_POS));
-                System.arraycopy(input, DATA_POS, this.data, 0, actual_size - DATA_POS);
-                break;
-            default:
-                setType(Package.ERROR);
-                error = new Error("Packet Type ERROR");
-        }
+        System.arraycopy(input,TYPE_POS,this.type,0,TYPE_SIZE);
+        System.arraycopy(input,VER_POS,this.ver,0,VER_SIZE);
+        System.arraycopy(input,PAR_POS,this.par,0,PAR_SIZE);
+        System.arraycopy(input,DATA_POS,this.data,0,DATA_SIZE);
     }
 
-    /**
-     * Build byte array for UDP Send
-     *
-     * @param type
-     * @param ver
-     * @param par
-     * @param data
-     * @return
-     */
-    public byte[] build(byte[] type, byte[] ver, byte[] par, byte[] data) {
+
+    public byte[] compatBuild(byte[] type, byte[] ver, byte[] par, byte[] data) {
         //protocol section + data section
         byte ret[] = new byte[DATA_POS + data.length];
         System.arraycopy(type, 0, ret, TYPE_POS, TYPE_SIZE);
@@ -104,24 +90,36 @@ public class Package {
         return ret;
     }
 
-    public byte[] build(byte[] type) {
+    public byte[] build(byte[] type){
         //protocol section + data section
         byte ret[] = new byte[DATA_POS];
-        System.arraycopy(type, 0, ret, TYPE_POS, TYPE_SIZE);
+        System.arraycopy(type,0,ret,TYPE_POS,type.length);
         //todo add key
 
         return ret;
     }
 
-    public byte[] build(byte[] type, byte[] data) {
+    public byte[] build(byte[] type,byte[] par){
         //protocol section + data section
-        byte ret[] = new byte[DATA_POS + data.length];
-        System.arraycopy(type, 0, ret, TYPE_POS, TYPE_SIZE);
-        System.arraycopy(data, 0, ret, DATA_POS, data.length);
+        byte ret[] = new byte[DATA_POS];
+        System.arraycopy(type,0,ret,TYPE_POS,type.length);
+        System.arraycopy(par,0,ret,PAR_POS,par.length);
         //todo add key
 
         return ret;
     }
+
+    public byte[] build(byte[] type,byte[] par,byte[] data){
+        //protocol section + data section
+        byte ret[] = new byte[DATA_POS+data.length];
+        System.arraycopy(type,0,ret,TYPE_POS,type.length);
+        System.arraycopy(par,0,ret,PAR_POS,par.length);
+        System.arraycopy(data,0,ret,DATA_POS,data.length);
+        //todo add key
+
+        return ret;
+    }
+
 
     public byte[] getData() {
         return data;
@@ -140,6 +138,9 @@ public class Package {
         return new byte[KEY_SIZE];
     }
 
+    public byte[] getPar(){
+        return par;
+    }
 
     public Error getError() {
         return error;

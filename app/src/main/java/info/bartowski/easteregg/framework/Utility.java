@@ -16,12 +16,16 @@
 
 package info.bartowski.easteregg.framework;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.media.AudioAttributes;
 import android.os.Build;
 import android.os.Vibrator;
 import android.support.graphics.drawable.VectorDrawableCompat;
+import android.telephony.TelephonyManager;
+
+import java.util.Arrays;
 
 public class Utility {
     public static Drawable getCompatDrawable(Context context, int vector_drawable_id) {
@@ -41,6 +45,20 @@ public class Utility {
         } else {
             vb.vibrate(milliseconds);
         }
+    }
+
+    public static byte[] trimBytes(byte[] bytes){
+        int i = bytes.length - 1;
+        while (i >= 0 && bytes[i] == 0)
+        {
+            --i;
+        }
+        return Arrays.copyOf(bytes, i + 1);
+    }
+
+    public static String getDeviceId(Activity activity){
+        TelephonyManager TelephonyMgr = (TelephonyManager) activity.getSystemService(Context.TELEPHONY_SERVICE);
+        return TelephonyMgr.getDeviceId();
     }
 
 }

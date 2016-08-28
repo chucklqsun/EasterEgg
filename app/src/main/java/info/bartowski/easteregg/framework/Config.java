@@ -19,11 +19,36 @@ package info.bartowski.easteregg.framework;
 import info.bartowski.easteregg.BuildConfig;
 
 public class Config {
-    public final static String HOST = BuildConfig.HOST;
+    public static boolean DEBUG = false;
+
+    public final static String HOST = "192.168.0.22";//BuildConfig.HOST;
+    public final static String DEBUG_HOST = "192.168.0.22";
+
     public final static int PORT = BuildConfig.PORT;
+    public final static int UDP_TIME_OUT = 3000; //unit ms
 
     public class FUNC {
+        //app  1~9
         public final static byte CHECK_APP_VERSION = 1;
+        //game 10~19
+        public final static byte UPDATE_SCORE = 10;
+        public final static byte GET_SCORES = 11;
+    }
+
+    public static String getAppSite(){
+        if(DEBUG){
+            return Uri.DEBUG_SITE;
+        }else{
+            return Uri.APP_SITE;
+        }
+    }
+
+    public static String getHost(){
+        if(DEBUG){
+            return DEBUG_HOST;
+        }else{
+            return HOST;
+        }
     }
 
     public class Uri {
@@ -34,6 +59,6 @@ public class Config {
 
         public final static String APP_SITE = SCHEME + "://" + SUB_DOMAIN + "." + DOMAIN + "/";
 
-
+        public final static String DEBUG_SITE = "http://localhost/";
     }
 }

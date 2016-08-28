@@ -14,53 +14,60 @@
      limitations under the License.
 -->
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
     <info.bartowski.easteregg.LLand
         android:id="@+id/world"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"></info.bartowski.easteregg.LLand>
+        android:layout_height="match_parent"/>
 
-    <TextView
-        android:id="@+id/score"
-        android:layout_width="wrap_content"
+    <RelativeLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="32sp"
-        android:textColor="#FFAAAAAA"
-        android:layout_marginTop="32dp"
+        android:layout_gravity="top|left"
+        android:gravity="top"
         android:layout_marginLeft="16dp"
-        android:layout_gravity="top|left"
-        android:paddingLeft="16dp"
-        android:paddingRight="16dp"
-        android:paddingTop="8dp"
-        android:paddingBottom="8dp"
-        android:background="@drawable/scorecard" />
+        android:layout_marginTop="32dp">
 
-    <TextView
-        android:id="@+id/max_score"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="16sp"
-        android:textColor="#FFAAAAAA"
-        android:layout_marginTop="32dp"
-        android:layout_marginLeft="80dp"
-        android:layout_gravity="top|left"
-        android:paddingLeft="8dp"
-        android:paddingRight="8dp"
-        android:paddingTop="4dp"
-        android:paddingBottom="4dp"
-        android:background="@drawable/scorecard" />
+        <TextView
+            android:id="@+id/score"
+            android:layout_alignParentLeft="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/scorecard"
+            android:paddingBottom="8dp"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:paddingTop="8dp"
+            android:textColor="#FFAAAAAA"
+            android:textSize="32sp" />
+
+        <TextView
+            android:id="@+id/max_score"
+            android:layout_toRightOf="@+id/score"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/scorecard"
+            android:layout_marginLeft="10dp"
+            android:paddingBottom="4dp"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp"
+            android:paddingTop="4dp"
+            android:textColor="#FFAAAAAA"
+            android:textSize="16sp" />
+    </RelativeLayout>
 
     <TextView
         android:id="@+id/welcome"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="30sp"
-        android:textColor="#FFFFFFFF"
         android:layout_gravity="center"
         android:layout_marginTop="70dp"
+        android:textColor="#FFFFFFFF"
+        android:textSize="30sp"
         android:visibility="gone" />
 </FrameLayout>
 

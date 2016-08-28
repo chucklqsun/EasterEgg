@@ -6,6 +6,7 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_DOWNLOAD_MANAGER" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
 
     <application
         android:allowBackup="true"
@@ -23,6 +24,7 @@
             android:permission="android.permission.BIND_DREAM_SERVICE">
             <intent-filter>
                 <action android:name="android.service.dreams.DreamService" />
+
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </service>
@@ -38,6 +40,7 @@
             android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
@@ -51,20 +54,21 @@
             android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".LLandActivity"
-            android:theme="@android:style/Theme.Holo.NoActionBar"
-            android:label="@string/lland"
+            android:excludeFromRecents="true"
             android:hardwareAccelerated="true"
+            android:label="@string/lland"
             android:launchMode="singleInstance"
             android:screenOrientation="locked"
-            android:excludeFromRecents="true">
+            android:theme="@android:style/Theme.Holo.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
@@ -74,43 +78,42 @@
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".BeanBag"
-            android:label="BeanBag"
-            android:theme="@android:style/Theme.Wallpaper.NoTitleBar.Fullscreen"
+            android:excludeFromRecents="true"
             android:hardwareAccelerated="true"
+            android:label="BeanBag"
             android:launchMode="singleInstance"
-            android:excludeFromRecents="true">
+            android:theme="@android:style/Theme.Wallpaper.NoTitleBar.Fullscreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".Nyandroid"
-            android:label="Nyandroid"
-            android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen"
+            android:excludeFromRecents="true"
             android:hardwareAccelerated="true"
+            android:label="Nyandroid"
             android:launchMode="singleInstance"
-            android:excludeFromRecents="true">
+            android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".ZombieActivity"
-            android:theme="@android:style/Theme.NoTitleBar.Fullscreen"></activity>
-
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen" />
         <activity
             android:name=".HoneybeeActivity"
-            android:theme="@android:style/Theme.Wallpaper.NoTitleBar.Fullscreen"></activity>
+            android:theme="@android:style/Theme.Wallpaper.NoTitleBar.Fullscreen" />
     </application>
 
 </manifest>

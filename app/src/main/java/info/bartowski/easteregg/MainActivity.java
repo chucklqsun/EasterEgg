@@ -24,19 +24,29 @@ import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.RadioGroup;
+import android.widget.Toast;
 
 import java.util.HashMap;
 import java.util.Map;
 
+import info.bartowski.easteregg.framework.Config;
 import info.bartowski.easteregg.framework.UpdateApp;
+import info.bartowski.easteregg.framework.Utility;
 
 public class MainActivity extends AppCompatActivity {
+    public static String IMEI;
     private final static String LOG_TAG = MainActivity.class.getSimpleName();
+    private long lastBackTime = 0;
+    private long currentBackTime = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        if(IMEI == null){
+            IMEI = Utility.getDeviceId(this);
+        }
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
     }
@@ -89,4 +99,31 @@ public class MainActivity extends AppCompatActivity {
             new UpdateApp(getApplicationContext()).execute();
         }
     }
+
+    short tap = 0;
+    public void openDebug(View view){
+        if(tap != 7) {
+            tap++;
+        }else{
+            Config.DEBUG = !Config.DEBUG;
+            Toast.makeText(this, "debug open", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if(keyCode == KeyEvent.KEYCODE_BACK){
+            currentBackTime = System.currentTimeMillis();
+            if(currentBackTime - lastBackTime > 2 * 1000){
+                Toast.makeText(this, "tap back again to exit", Toast.LENGTH_SHORT).show();
+                lastBackTime = currentBackTime;
+            }else{
+                finish();
+            }
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
+    }
+
+
 }

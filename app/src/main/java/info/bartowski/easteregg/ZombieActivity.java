@@ -17,6 +17,7 @@
 package info.bartowski.easteregg;
 
 import android.app.Activity;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.widget.ImageView;
@@ -24,10 +25,13 @@ import android.widget.Toast;
 
 public class ZombieActivity extends Activity {
     Toast mToast;
+    MediaPlayer mPlayer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mPlayer = MediaPlayer.create(this,R.raw.zombie);
+        mPlayer.start();
 
         mToast = Toast.makeText(this, "Zombie art by Jack Larson", Toast.LENGTH_SHORT);
 
@@ -44,5 +48,23 @@ public class ZombieActivity extends Activity {
             mToast.show();
         }
         return super.dispatchTouchEvent(ev);
+    }
+
+    @Override
+    public void onResume(){
+        super.onResume();
+        mPlayer.start();
+    }
+
+    @Override
+    public void onPause(){
+        super.onPause();
+        mPlayer.pause();
+    }
+
+    @Override
+    public void onStop(){
+        super.onStop();
+        mPlayer.stop();
     }
 }
