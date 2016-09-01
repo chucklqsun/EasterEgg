@@ -23,9 +23,9 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
@@ -33,22 +33,46 @@ import java.util.HashMap;
 import java.util.Map;
 
 import info.bartowski.easteregg.framework.Config;
+import info.bartowski.easteregg.framework.Setting;
 import info.bartowski.easteregg.framework.UpdateApp;
 import info.bartowski.easteregg.framework.Utility;
 
 public class MainActivity extends AppCompatActivity {
-    public static String IMEI;
+    public static String IMEI = "000000000000000";
+    public static String nickname = "";
     private final static String LOG_TAG = MainActivity.class.getSimpleName();
     private long lastBackTime = 0;
     private long currentBackTime = 0;
+    private EditText nicknameEt;
+    private Setting setting;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        if(IMEI == null){
-            IMEI = Utility.getDeviceId(this);
-        }
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        if (isPermissionGranted()) {
+            IMEI = Utility.getDeviceId(this);
+        } else {
+            IMEI = "000000000000001";
+        }
+
+        setting = new Setting(this, LOG_TAG);
+        nicknameEt = (EditText) findViewById(R.id.nickname_et);
+        nickname = setting.getString("nickname");
+        if (nickname.equals("")) {
+            nickname = "路人甲";
+        }
+        nicknameEt.setText(nickname);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if (!nicknameEt.getText().toString().equals(nickname)) {
+            nickname = nicknameEt.getText().toString();
+            setting.putString("nickname", nickname);
+        }
+        ;
     }
 
     public void openEasterEgg(View view) {
@@ -68,43 +92,55 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void checkVersion(View view) {
-        if (isStoragePermissionGranted()) {
+        if (isPermissionGranted()) {
             new UpdateApp(getApplicationContext()).execute();
         }
     }
 
-    public boolean isStoragePermissionGranted() {
+    public boolean isPermissionGranted() {
         if (Build.VERSION.SDK_INT >= 23) {
-            if (checkSelfPermission(android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                    == PackageManager.PERMISSION_GRANTED) {
-                Log.v(LOG_TAG, "Permission is granted");
+            if (
+                    (checkSelfPermission(android.Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) &&
+                            (checkSelfPermission(Manifest.permission.READ_PHONE_STATE) == PackageManager.PERMISSION_GRANTED)
+                    ) {
+                System.out.println("Permission is granted");
                 return true;
             } else {
-                Log.v(LOG_TAG, "Permission is revoked");
-                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
+                System.out.println("Permission is revoked");
+                ActivityCompat.requestPermissions(this, new String[]{
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                        Manifest.permission.READ_PHONE_STATE
+                }, 1);
                 return false;
             }
         } else { //permission is automatically granted on sdk<23 upon installation
-            Log.v(LOG_TAG, "Permission is granted");
+            System.out.println("Permission is granted");
             return true;
         }
+
     }
 
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-            Log.v(LOG_TAG, "Permission: " + permissions[0] + "was " + grantResults[0]);
-            //resume tasks needing this permission
-            new UpdateApp(getApplicationContext()).execute();
+        if (
+                grantResults[0] == PackageManager.PERMISSION_GRANTED &&
+                grantResults[1] == PackageManager.PERMISSION_GRANTED
+            ) {
+            System.out.println("Permission: " + permissions[0] + " was " + grantResults[0]);
+            System.out.println("Permission: " + permissions[1] + " was " + grantResults[1]);
+            IMEI = Utility.getDeviceId(this);
+        }else{
+            this.finish();
         }
     }
 
     short tap = 0;
-    public void openDebug(View view){
-        if(tap != 7) {
+
+    public void openDebug(View view) {
+        if (tap != 7) {
             tap++;
-        }else{
+        } else {
             Config.DEBUG = !Config.DEBUG;
             Toast.makeText(this, "debug open", Toast.LENGTH_SHORT).show();
         }
@@ -112,12 +148,12 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if(keyCode == KeyEvent.KEYCODE_BACK){
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
             currentBackTime = System.currentTimeMillis();
-            if(currentBackTime - lastBackTime > 2 * 1000){
+            if (currentBackTime - lastBackTime > 2 * 1000) {
                 Toast.makeText(this, "tap back again to exit", Toast.LENGTH_SHORT).show();
                 lastBackTime = currentBackTime;
-            }else{
+            } else {
                 finish();
             }
             return true;

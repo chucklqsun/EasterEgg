@@ -52,6 +52,7 @@ public class UpdateApp extends AsyncTask<Void, String, String> {
             packet = trans.send(res_buf, VERSION_SIZE);
             // display response
             p.resolve(packet);
+            //System.out.println(Arrays.toString(p.getData()));
             String ver = byteArrayToVerFormat(p.getData());
             msg = ver;
             //success
@@ -69,7 +70,7 @@ public class UpdateApp extends AsyncTask<Void, String, String> {
         Log.v(LOG_TAG, result);
         //show error
         if (checkError) {
-            Toast.makeText(context, result, Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, "update error:"+result, Toast.LENGTH_SHORT).show();
             return;
         }
 

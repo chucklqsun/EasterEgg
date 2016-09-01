@@ -87,6 +87,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
+    <EditText
+        android:id="@+id/nickname_et"
+        android:maxLength="6"
+        android:text="宝宝很生气"
+        android:layout_gravity="center_horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
     <Button
         android:id="@+id/check_version_button"
         android:onClick="checkVersion"

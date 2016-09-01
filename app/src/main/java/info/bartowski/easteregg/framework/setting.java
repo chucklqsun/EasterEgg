@@ -33,6 +33,11 @@ public class Setting {
         editor.commit();
     }
 
+    public void putString(String key, String value){
+        editor.putString(key, value);
+        editor.commit();
+    }
+
     public int getInt(String key){
         return preferences.getInt(key,0);
     }
@@ -40,4 +45,9 @@ public class Setting {
     public int getInt(String key,int value){
         return preferences.getInt(key,value);
     }
+
+    public String getString(String key){
+        return preferences.getString(key,"");
+    }
+
 }

@@ -52,16 +52,19 @@ public class LLandActivity extends Activity {
         }
     }
     private void renderLaunch(){
+        curView = VIEW_LAUNCH;
         setContentView(R.layout.activity_lland_launch);
         if(bgm.isPlaying()){
             bgm.pause();
         }
         //update rank
         ListView wkRankLv = (ListView) findViewById(R.id.wk_rank_list);
+        System.out.println("get scores");
         new Scores(getApplicationContext()).execute(Config.FUNC.GET_SCORES,Scores.DATA_TYPE_WKMAX,wkRankLv);
     }
 
     private void renderWorld(){
+        curView = VIEW_WORLD;
         setContentView(R.layout.lland);
         LLand world = (LLand) findViewById(R.id.world);
         world.setScoreField((TextView) findViewById(R.id.score),(TextView) findViewById(R.id.max_score));
@@ -75,13 +78,11 @@ public class LLandActivity extends Activity {
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-
         if (keyCode == KeyEvent.KEYCODE_BACK
                 && event.getRepeatCount() == 0) {
             switch(curView) {
                 case VIEW_WORLD:
                     renderLaunch();
-                    curView = VIEW_LAUNCH;
                     break;
                 default:
                     return super.onKeyDown(keyCode, event);
@@ -93,7 +94,6 @@ public class LLandActivity extends Activity {
 
     public void startGame(View view){
         renderWorld();
-        curView = 2;
     }
 
     @Override

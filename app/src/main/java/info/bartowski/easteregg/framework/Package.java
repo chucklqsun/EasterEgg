@@ -73,7 +73,7 @@ public class Package {
         System.arraycopy(input,TYPE_POS,this.type,0,TYPE_SIZE);
         System.arraycopy(input,VER_POS,this.ver,0,VER_SIZE);
         System.arraycopy(input,PAR_POS,this.par,0,PAR_SIZE);
-        System.arraycopy(input,DATA_POS,this.data,0,DATA_SIZE);
+        System.arraycopy(input,DATA_POS,this.data,0,input.length-DATA_POS);
     }
 
 

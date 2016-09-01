@@ -375,7 +375,7 @@ public class LLand extends FrameLayout {
             }
 
             mScoreField.setTextColor(0xFFAAAAAA);
-            mScoreField.setBackground(Utility.getCompatDrawable(getContext(), R.drawable.scorecard));
+            mScoreField.setBackgroundResource(R.drawable.scorecard);
             mDroid.setVisibility(View.VISIBLE);
             mDroid.setX(mWidth / 2);
             mDroid.setY(mHeight / 2);
@@ -389,7 +389,9 @@ public class LLand extends FrameLayout {
     }
 
     private void updateMaxScore(int finalScore){
-        new Scores(getContext()).execute(Config.FUNC.UPDATE_SCORE,finalScore,MainActivity.IMEI,"路人甲");
+        if(finalScore > 0) {
+            new Scores(getContext()).execute(Config.FUNC.UPDATE_SCORE, finalScore, MainActivity.IMEI, MainActivity.nickname);
+        }
         if(maxScore < finalScore){
             maxScore = finalScore;
             Setting s = new Setting(getContext(),TAG);
@@ -406,10 +408,9 @@ public class LLand extends FrameLayout {
     }
 
     private void stop() {
-        //update max score
-        updateMaxScore(mScore);
-
         if (mAnimating) {
+            //update max score
+            updateMaxScore(mScore);
             mAnim.cancel();
             mAnim = null;
             mAnimating = false;

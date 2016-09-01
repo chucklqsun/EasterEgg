@@ -21,7 +21,7 @@ import info.bartowski.easteregg.BuildConfig;
 public class Config {
     public static boolean DEBUG = false;
 
-    public final static String HOST = "192.168.0.22";//BuildConfig.HOST;
+    public final static String HOST = BuildConfig.HOST;
     public final static String DEBUG_HOST = "192.168.0.22";
 
     public final static int PORT = BuildConfig.PORT;

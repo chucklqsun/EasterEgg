@@ -1,9 +1,10 @@
 apply plugin: 'com.android.application'
 
 android {
+    signingConfigs {
+    }
     compileSdkVersion 24
     buildToolsVersion "23.0.1"
-
     defaultConfig {
         vectorDrawables.useSupportLibrary = true
         applicationId "info.bartowski.easteregg"
@@ -12,6 +13,15 @@ android {
         versionCode 2
         versionName "1.0.3"
     }
+    productFlavors {
+        dev {
+            buildConfigField 'String', 'HOST', '"192.168.0.22"'
+        }
+
+        prod {
+            buildConfigField 'String', 'HOST', '"www.bartowski.info"'
+        }
+    }
     buildTypes {
         release {
             minifyEnabled false
@@ -19,8 +29,7 @@ android {
         }
     }
     buildTypes.each {
-        it.buildConfigField 'String', 'HOST', '"www.bartowski.info"'
-        it.buildConfigField 'Integer','PORT', '4445'
+        it.buildConfigField 'Integer', 'PORT', '4445'
     }
     android.sourceSets {
         main.res.srcDirs 'src/main/res', 'src/main/res_neko'

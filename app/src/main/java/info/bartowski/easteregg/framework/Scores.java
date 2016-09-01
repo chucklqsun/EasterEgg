@@ -18,6 +18,7 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
+import android.widget.Toast;
 
 import java.net.DatagramPacket;
 import java.nio.ByteBuffer;
@@ -29,7 +30,11 @@ import java.util.Map;
 import info.bartowski.easteregg.R;
 
 public class Scores extends AsyncTask<Object, String, String> {
-    private Context context;
+    private static Context context;
+    private byte curOpt;
+
+    private static ListView lv;
+    private static SimpleAdapter simpleAdapter;
 
     private final static int COLUMN_ID = 1;
     private final static int COLUMN_DEV_SERIAL_NUM = 2;
@@ -53,12 +58,21 @@ public class Scores extends AsyncTask<Object, String, String> {
 
     public Scores(Context context) {
         super();
-        this.context = context;
+        Scores.context = context;
     }
 
     @Override
     protected void onPostExecute(String s) {
         super.onPostExecute(s);
+        switch (curOpt){
+            case Config.FUNC.GET_SCORES:
+                lv.setAdapter(simpleAdapter);
+                break;
+            case Config.FUNC.UPDATE_SCORE:
+                break;
+            default:
+                Toast.makeText(context,"lost connect with server",Toast.LENGTH_SHORT).show();
+        }
     }
 
     private byte[] buildUpdWkMax(Package p,int myScore,String IMEI,String myNickname){
@@ -131,13 +145,6 @@ public class Scores extends AsyncTask<Object, String, String> {
                     System.out.println("unknown return status");
                 }
                 break;
-            default:
-                System.out.println("nothing need resolve");
-        }
-    }
-
-    private static void resolveBuf(byte type, Package p, Context context,ListView lv) {
-        switch (type) {
             case Config.FUNC.GET_SCORES:
                 List<Record> list = Scores.unWrapData(Scores.DATA_TYPE_WKMAX, p.getPar(), p.getData());
                 List<Map<String,Object>> listItems = new ArrayList<>();
@@ -154,17 +161,16 @@ public class Scores extends AsyncTask<Object, String, String> {
                     listItem.put("score",list.get(i).getWkMax());
                     listItems.add(listItem);
                 }
-                SimpleAdapter simpleAdapter = new SimpleAdapter(
+                simpleAdapter = new SimpleAdapter(
                         context,
                         listItems,
                         R.layout.lland_rank,
                         new String[]{"rank_no","nickname","score"},
                         new int[]{R.id.rank_no,R.id.nickname,R.id.score}
                 );
-                lv.setAdapter(simpleAdapter);
                 break;
             default:
-                System.out.println("nothing need resolve");
+                System.out.println("nothing need resolve:"+type);
         }
     }
 
@@ -174,20 +180,20 @@ public class Scores extends AsyncTask<Object, String, String> {
         DatagramPacket packet;
         Transfer trans = new Transfer();
         Package p = new Package();
-        byte action,actionType;
+        byte actionType;
         if(params.length == 0) {
             return null;
         }
 
-        action = (Byte) params[0];
+        curOpt = (Byte) params[0];
 
         byte[] res_buf;
         try {
             trans.init();
-            switch (action){
+            switch (curOpt){
                 case Config.FUNC.GET_SCORES:
                     actionType = (byte)params[1]; //data_type:wk or history
-                    res_buf = p.build(new byte[]{action}, new byte[]{actionType});
+                    res_buf = p.build(new byte[]{curOpt}, new byte[]{actionType});
                     break;
                 case Config.FUNC.UPDATE_SCORE:
                     res_buf = buildUpdWkMax(p,(int)params[1],(String)params[2],(String)params[3]);
@@ -200,19 +206,21 @@ public class Scores extends AsyncTask<Object, String, String> {
             // display response
             p.resolve(packet);
 
-            switch (action) {
+            switch (curOpt) {
                 case Config.FUNC.GET_SCORES:
-                    resolveBuf(action, p,context,(ListView) params[2]);
+                    Scores.lv = (ListView) params[2];
                     break;
                 default:
-                    resolveBuf(action, p);
             }
+            resolveBuf(curOpt, p);
 
         } catch (Exception e) {
+            curOpt = 0x0;
             System.out.println(e.getMessage());
         }
 
         trans.close();
         return null;
     }
+
 }
