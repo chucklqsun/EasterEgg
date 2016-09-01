@@ -36,6 +36,7 @@ import info.bartowski.easteregg.framework.Config;
 import info.bartowski.easteregg.framework.Setting;
 import info.bartowski.easteregg.framework.UpdateApp;
 import info.bartowski.easteregg.framework.Utility;
+import info.bartowski.easteregg.neko.NekoActivationActivity;
 
 public class MainActivity extends AppCompatActivity {
     public static String IMEI = "000000000000000";
@@ -79,6 +80,7 @@ public class MainActivity extends AppCompatActivity {
         RadioGroup rg = (RadioGroup) findViewById(R.id.egg_choose_rg);
         Map<Integer, Class> targetMap = new HashMap<>();
 
+        targetMap.put(R.id.egg_nekoland_rb, NekoActivationActivity.class);
         targetMap.put(R.id.egg_beanbag_rb, BeanBag.class);
         targetMap.put(R.id.egg_dessertcase_rb, DessertCase.class);
         targetMap.put(R.id.egg_mland_rb, MLandActivity.class);
@@ -87,6 +89,12 @@ public class MainActivity extends AppCompatActivity {
         targetMap.put(R.id.egg_zombie_rb, ZombieActivity.class);
         targetMap.put(R.id.egg_honeybee_rb, HoneybeeActivity.class);
 
+        if(rg.getCheckedRadioButtonId() == R.id.egg_nekoland_rb){
+            if(Build.VERSION.SDK_INT < 24){
+                Toast.makeText(this,"Need Android Nougat",Toast.LENGTH_SHORT).show();
+                return;
+            }
+        }
         Intent intent = new Intent(this, targetMap.get(rg.getCheckedRadioButtonId()));
         startActivity(intent);
     }

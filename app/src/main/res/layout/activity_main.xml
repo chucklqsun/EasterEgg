@@ -21,6 +21,14 @@
 
         <RadioButton
             android:textSize="22sp"
+            android:text="@string/nekoland"
+            android:checked="false"
+            android:id="@+id/egg_nekoland_rb"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <RadioButton
+            android:textSize="22sp"
             android:text="@string/mland"
             android:checked="false"
             android:id="@+id/egg_mland_rb"

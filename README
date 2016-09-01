@@ -9,6 +9,7 @@ Compatible with Android kitkat (API 19) and above
 Source code and resource originate from AOSP.
 
 -------------
+0. Neko Land        - Android Nougat (API level 24 or above)
 1. Marshmallow Land - Android Marshmallow
 2. Lollipop Land    - Android Lollipop
 3. DessertCase      - Android Kitkat
@@ -19,6 +20,25 @@ Source code and resource originate from AOSP.
 
 -------------
 
-Android 7.0 Nougat Neko Easter egg is undergoing development~
+Neko Tips:
+
+interval time is ±25% based on food interval
+
+food parameters:
+
+food	interval time(min)	catch prob(%)	prob per min
+
+empty	0	0	0
+
+bits	15	5	0.3333
+
+fish	30	35	1.1667
+
+chicken	60	65	1.0833
+
+treat	120	90	0.75
+
+first cat prob is 100%, so use bits is good idea.
+
 
 Any question please leave message, thx!

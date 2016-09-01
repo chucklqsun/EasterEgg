@@ -23,6 +23,7 @@ import android.media.AudioAttributes;
 import android.os.Build;
 import android.os.Vibrator;
 import android.support.graphics.drawable.VectorDrawableCompat;
+import android.support.v4.graphics.drawable.DrawableCompat;
 import android.telephony.TelephonyManager;
 
 import java.util.Arrays;
@@ -61,4 +62,7 @@ public class Utility {
         return TelephonyMgr.getDeviceId();
     }
 
+    public static void setTint(Drawable drawable,int tint){
+        DrawableCompat.setTint(drawable,tint);
+    }
 }
